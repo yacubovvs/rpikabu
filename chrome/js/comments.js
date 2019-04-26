@@ -5,16 +5,24 @@ console.log("r/Pikabu plugin starts")
 // Функция проверки ссылок и замены их на изображения
 function updateImages(){
 
-    $('p > a').each(function(index, element){  
+    $('p > a:not(.rp-c-checked)').each(function(index, element){  
         //Сюда еще попадают ссылки из шапки, надо с этим что-то делать
 
-        if ($(element).children().length==0){ // Значит у ссылки уже есть дети и ее преобразовывать не надо
-            // Проверка адреса ссылки на картинку
-            var href_end = element.href.substr(-4);
-            var href_start = element.href.substr(0,5); // Проверяем точно ли картинка https, иначе не загрузится
+        //Добавляем класс, который говорит парсеру что ссылка уже обработана
+        $(element).addClass("rp-c-checked");
 
-            if (href_start=="https" && ( href_end==".jpg" || href_end==".png" || href_end=="jpeg") ){
-                element.innerHTML = '<img src="' + element.href + '" style="width:500px; display: block">';
+        var href_end_4 = element.href.substr(-4);
+        var href_end_5 = element.href.substr(-4);
+        var href_start_5 = element.href.substr(0,5); 
+        var href_start_23 = element.href.substr(0,23); 
+
+        if (href_start_5=="https"){ // Проверяем точно ли картинка https, иначе не загрузится
+            if ( href_end_4==".jpg" || href_end_4==".png" || href_end_4==".gif" || href_end_5==".jpeg"){
+                element.innerHTML = '<img src="' + element.href + '" style="max-width:500px; display: block">';
+            }
+            if (href_start_23=="https://www.youtube.com"){ // Распознаем YouTube
+                console.log("Youtube detected");
+                element.innerHTML = '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + element.href.split('?v=')[1] + '" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>';
             }
         }
     
@@ -23,6 +31,6 @@ function updateImages(){
 
 //  Ночь на дворе, не особенно хочется сейчас что-то городить, 
 //  просто поставлю таймер по которому будут ссылки превращаться в картинки, за такое мне руки оторвать надо.
-//  updateImages() должна вызываться по событию
-setInterval(updateImages, 5000);
+//  updateImages() должна вызываться по событию или после скролла
+setInterval(updateImages, 3000);
 
