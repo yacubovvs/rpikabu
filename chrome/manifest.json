@@ -5,7 +5,6 @@
     "description": "Showind pics in comments by link",
     
     "icons": {
-        "256": "images/icon-256.png",
         "128": "images/icon-128.png"
     },
 
@@ -14,7 +13,7 @@
             "matches": [ "https://www.reddit.com/*/comments/*" ],
             "js": [ 
                 "js/jquery.min.js",
-                "js/comments_img.js"
+                "js/comments.js"
             ]
         }
     ],
